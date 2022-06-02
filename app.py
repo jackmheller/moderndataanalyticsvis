@@ -27,9 +27,6 @@ comms = data['communityId'].values.tolist()
 names = data['name'].values.tolist()
  """
 
-
-fig.update_layout(height=300, margin={"r":0,"t":0,"l":0,"b":0})
-fig.show()
 fig = px.choropleth(locationmode="country names", scope="world", data_frame=data, locations='name', color='communityId')
 fig.update_layout(width=1500)
 
