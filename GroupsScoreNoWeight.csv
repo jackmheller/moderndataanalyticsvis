@@ -1,0 +1,47 @@
+﻿name,communityId,intermediateCommunityIds
+Cyprus,10,null
+Israel,10,null
+Portugal,10,null
+Romania,10,null
+Spain,10,null
+Armenia,11,null
+Azerbaijan,11,null
+Belarus,11,null
+Bulgaria,11,null
+CzechRepublic,11,null
+Georgia,11,null
+Greece,11,null
+Lithuania,11,null
+Malta,11,null
+Moldova,11,null
+Russia,11,null
+San Marino,11,null
+Ukraine,11,null
+Australia,16,null
+Austria,16,null
+Belgium,16,null
+Denmark,16,null
+Estonia,16,null
+Finland,16,null
+France,16,null
+Germany,16,null
+Hungary,16,null
+Iceland,16,null
+Ireland,16,null
+Latvia,16,null
+Netherlands,16,null
+Norway,16,null
+Poland,16,null
+Sweden,16,null
+Switzerland,16,null
+United Kingdom,16,null
+Albania,29,null
+Bosnia Herzegovina,29,null
+Croatia,29,null
+Italy,29,null
+Macedonia,29,null
+Montenegro,29,null
+Serbia,29,null
+Slovakia,29,null
+Slovenia,29,null
+Turkey,29,null
