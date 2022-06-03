@@ -16,17 +16,13 @@ import pycountry
 from graphs import make_plot
 
 
-app = dash.Dash(__name__,title='MDA Eurovision Interactive',external_stylesheets=[dbc.themes.BOOTSTRAP],serve_locally = False,suppress_callback_exceptions=True)
+app = dash.Dash(__name__,title='MDA Eurovision Interactive',external_stylesheets=[dbc.themes.BOOTSTRAP],serve_locally = False)
 
 # add this for heroku
 server = app.server
 
 # Chart
-noWeightData = pd.read_csv('GroupsScoreNoWeight.csv')
-weightedData = pd.read_csv('GroupsScoreWeight.csv')
-data = noWeightData.merge(weightedData, on='name', suffixes = ("_noweight", "_weight"))
-
-df = pd.read_csv('https://raw.githubusercontent.com/jackmheller/modernDataAnalytics/main/yearBias.csv')
+df = pd.read_csv('yearBias.csv')
 
 countries = []
 for country in df['From country']:
@@ -34,6 +30,14 @@ for country in df['From country']:
 
 df['iso code'] = countries
 
+
+#fig = px.choropleth(locationmode="country names", scope="world", data_frame=data, locations='name', color='communityId_weight')
+#fig.update_layout(width=1500)
+
+# Data
+#df = df.rename(columns=dict(fromCount="From country",
+#                            toCount="To country",
+#                            bias="True_Bias"))
 cols_dd = df['From country'].unique()
 # we need to add this to select which trace 
 # is going to be visible
@@ -66,9 +70,7 @@ fig = go.Figure(data=traces,
 # This is in order to get the first title displayed correctly
 first_title = cols_dd[0]
 fig.update_layout(title=f"<b>{first_title}</b>",title_x=0.5)
-
-fig2 = px.choropleth(locationmode="country names", scope="world", data_frame=data, locations='name', color='communityId_weight')
-fig2.update_layout(width=1500)
+fig.show()
 
 app.layout = dbc.Container(
     [
@@ -79,8 +81,8 @@ app.layout = dbc.Container(
         html.Hr(),
         dbc.Row(
             [
-                dbc.Col(dcc.Graph(id="id_graph",figure=fig2), md=10),
-                dbc.Col(dcc.Graph(id="id_graph2",figure=fig), md=10),
+                #dbc.Col(dropdown, md=2),
+                dbc.Col(dcc.Graph(id="id_graph",figure=fig), md=10),
             ],
             align="center",
         ),
@@ -91,10 +93,13 @@ app.layout = dbc.Container(
 @app.callback(
     Output('id_title','children'),
     Output('id_graph','figure'),
-    Output('id_graph','fig'),
+    [Input('data_set', 'value'),
+     ]
 )
 def update_chart(currency_value):
     return
 
+
+
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
