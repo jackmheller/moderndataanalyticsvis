@@ -22,8 +22,8 @@ app = dash.Dash(__name__,title='MDA Eurovision Interactive',external_stylesheets
 server = app.server
 
 # Chart
-noWeightData = pd.read_csv('GroupsScoreNoWeight.csv')
-weightedData = pd.read_csv('GroupsScoreWeight.csv')
+noWeightData = pd.read_csv('https://raw.githubusercontent.com/jackmheller/modernDataAnalytics/main/Data/GroupsScoreNoWeight.csv')
+weightedData = pd.read_csv('https://raw.githubusercontent.com/jackmheller/modernDataAnalytics/main/Data/GroupsScoreWeight.csv')
 data = noWeightData.merge(weightedData, on='name', suffixes = ("_noweight", "_weight"))
 
 df = pd.read_csv('https://raw.githubusercontent.com/jackmheller/modernDataAnalytics/main/yearBias.csv')
@@ -65,25 +65,42 @@ fig = go.Figure(data=traces,
                 layout=dict(updatemenus=updatemenus))
 # This is in order to get the first title displayed correctly
 first_title = cols_dd[0]
-fig.update_layout(title=f"<b>{first_title}</b>",title_x=0.5)
+fig.update_layout(title="<b>{first_title}</b>",title_x=0.5)
 
 fig2 = px.choropleth(locationmode="country names", scope="world", data_frame=data, locations='name', color='communityId_weight')
 fig2.update_layout(width=1500)
 
+data2 = pd.read_csv('https://raw.githubusercontent.com/jackmheller/modernDataAnalytics/main/Data/group_unweighted_Mean.csv')
+
+fig3 = px.choropleth(locationmode="country names", scope="world", data_frame=data2, locations='name', color='communityId')
+fig3.update_layout(width=1500)
+
+
 app.layout = dbc.Container(
     [
-        html.Div(children=[html.H1(children='Communities of Voting'),
-                           html.H2(children='Voting Communities'),
+        html.Div(children=[html.H1(children='Mozambique Group World Visualizations'),
+                           html.H2(children='Weighted Voting Communities'),
                            html.H4(children='',id='id_title')],
                  style={'textAlign':'center','color':'black'}),
         html.Hr(),
         dbc.Row(
             [
                 dbc.Col(dcc.Graph(id="id_graph",figure=fig2), md=10),
-                dbc.Col(dcc.Graph(id="id_graph2",figure=fig), md=10),
             ],
             align="center",
         ),
+        html.Div(children=[html.H2(children='Identify Which Countries Are Biased Toward Recipients')],
+        style = {'textAlign': 'center', 'color': 'black'}),
+        html.Hr(),
+
+        dbc.Row([dbc.Col(dcc.Graph(id="id_graph2",figure=fig), md=10),],
+                align = "center"),
+        html.Div(children=[html.H2(children='Unweighted Voting Communities')],
+        style = {'textAlign': 'center', 'color': 'black'}),
+        html.Hr(),
+
+        dbc.Row([dbc.Col(dcc.Graph(id="id_graph3",figure=fig3), md=10),],
+                align = "center"),
     ],
     fluid=True,
 )
