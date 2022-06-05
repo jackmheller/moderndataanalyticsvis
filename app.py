@@ -95,7 +95,7 @@ app.layout = dbc.Container(
 
         dbc.Row([dbc.Col(dcc.Graph(id="id_graph2",figure=fig), md=10),],
                 align = "center"),
-        html.Div(children=[html.H2(children='Unweighted Voting Communities')],
+        html.Div(children=[html.H2(children='Voting Communities Based on Mean Vote')],
         style = {'textAlign': 'center', 'color': 'black'}),
         html.Hr(),
 
